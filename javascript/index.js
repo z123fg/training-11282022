@@ -3,7 +3,7 @@
   ecmascript: syntax standard
 
   javascript: browser, ecmascript + webapi(like getElementById)
-  node.js: node, ecamscript + nodeapi(fs)
+  node.js: node, ecamscript + nodeapi(fs, global)
 
 
 */
@@ -135,17 +135,16 @@ console.log(a == b, a, b);//true */
   console.log("falsy");
 } */
 //plain object
-var obj = {};
+/* var obj = {};
 console.log("obj", obj);
 var obj1 = Object.create({})
-console.log("obj1", obj1);
-
+console.log("obj1", obj1); */
 
 //blueprint of the instance of object
 //syntax/syntatic sugar
 //method: function from class, that will be inherited by the instance of the object
 
-class Person {
+/* class Person {
   constructor(name){
     console.log("constructor")
     //this point to the instance that is created from the class blueprint
@@ -159,7 +158,7 @@ class Person {
 //class object
 var obj2 = new Person("adam");
 obj2.walk()
-console.log("obj2", obj2);
+console.log("obj2", obj2); */
 /* 
   oop:
     inheritance
@@ -168,7 +167,7 @@ console.log("obj2", obj2);
     encapsulation
 */
 // prototype chain: is how javascript handle inheritance
-
+/* 
 class Employee extends Person{
   constructor(salary, name){
     super(name)
@@ -183,7 +182,7 @@ var employee = new Employee(100, "john");
 //3 prototypes in prototype chain
 employee.walk();//john is walks!
 employee.walk(1);
-console.log("employee", employee);
+console.log("employee", employee); */
 /* 
   overriding: child class method override parent class method
   overloading:javascript doesn't have overloading
@@ -196,7 +195,6 @@ console.log("employee", employee);
   employee.walk() //error
 
 */
-
 
 /* function Person(name){//constructor function
   this.name = name;
@@ -222,27 +220,133 @@ console.log(person instanceof Person) */
 
 // class, arrow function, let const, promise, rest, spread, destructuring
 
+/* 
+  javascript allow inner scope to access variable from outter scope all the time, but not the opposite way
+
+  arrow function: this keyword, is the same as the this from it's lexical scope, it's the same as the this keyword from it's outter scope
+  regular function: this keyword: is the object that invokes the function
+  hoisting
+*/
+/* 
+const a = 1;
+const foo = (arg) => {
+
+  console.log("hello world", this);//window 
+
+};
+
+function boo (){
+  const boo1 = () => {
+    console.log("boo1",this)//window
+  }
+  boo1()
+}
+boo(); */
+
+/* 
+  scope:
+    function:
+    block:
+      if while for try catch
+
+*/
+/* console.log(this);//window
+const obj = {
+  arrowFun: () => {
+    console.log("arrowFun", this)
+  },
+  regularFun: function(){
+    //console.log("regularFun", this);
+    const arrowFun1 = () => {
+      console.log("arrowFun1", this);//obj
+      const arrowFun2 = () => {
+        console.log("arrowFun2", this)//obj
+      }
+      arrowFun2()
+    }
+    arrowFun1()
+  }
+}
+
+obj.arrowFun(); //window
+obj.regularFun(); //obj
+
+const obj1 = {
+  name:"adam"
+};
+obj1.regularFun = obj.regularFun;
+
+obj1.regularFun();//obj1
+//obj.regularFun()//obj */
+
+/* function foo1() {
+  console.log("hello world", this);
+}
+foo(); */
+
+/* let const
+   var: hoisting: you can access the variable before the declaration
+   function keyword: hoisting
+
+   declaration: create memory, create namespace
+   initialization: initial value, first assignment
+   re-assignment: give it another value 
+*/
+/* console.log(a);//undefined
+var a = 1; */
+
+/* var a;
+console.log(a);//undefined
+a=1; */
+
+/* a=1;
+console.log(a);//reference error
+let a;
+ */
+
+/* 
+const a = 1;
+a=2;
+console.log(a);//type error */
+
+/* foo();
+function foo(){
+  console.log("hello world")
+} */
+
+/* var foo;
+
+foo?.();
+
+foo = () => {
+  console.log("hello world");
+}; */
+
+//rest operator: is the syntax that takes all argument and put them to an array
 
 
+function foo(){
+  console.log(arguments);
+  console.log(arguments.forEach())
+  for (let i = 0; i < arguments.length; i++) {
+    console.log(arguments[i])
+  }
+}
 
+foo(1,2,3,4,5)
 
+/* function foo(...args) {
+  console.log(args);
+}
 
+foo(1, 2, 3, 4);
 
+function sum(...args) {
+  let sum = 0;
+  for (let i = 0; i < args.length; i++) {
+    sum += args[i];
+  }
+  return sum;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+console.log(sum(1, 2, 3, 4, 5, 6)); */
