@@ -324,16 +324,15 @@ foo = () => {
 
 //rest operator: is the syntax that takes all argument and put them to an array
 
-
-function foo(){
+/* function foo(){
   console.log(arguments);
   console.log(arguments.forEach())
   for (let i = 0; i < arguments.length; i++) {
     console.log(arguments[i])
   }
-}
-
-foo(1,2,3,4,5)
+} */
+/* 
+foo(1,2,3,4,5) */
 
 /* function foo(...args) {
   console.log(args);
@@ -350,3 +349,68 @@ function sum(...args) {
 }
 
 console.log(sum(1, 2, 3, 4, 5, 6)); */
+
+//spread operator: it's a syntax sugar for shallow copying data from an object or array
+//object key override
+//==: coercion, ===: type and value(reference) 
+
+/* const obj = { name: "adam" };
+const obj1 = { ...obj };
+console.log(obj, obj1, obj == obj1);
+
+const arr = [1, 2, 3];
+const arr1 = [...arr];
+console.log(arr, arr1, arr == arr1); */
+
+/* const arr = [1,2,3];
+const arr1 = [4,5,6];
+const arr2 = [...arr1,7,8, ...arr];//[1,2,3,4,5,6]
+console.log(arr2)
+const obj = {name:"adam",age:19};
+const obj1 = {age:18};
+const obj2 = {...obj1, ...obj};
+console.log(obj2) */
+
+
+//copy
+//shallow copy: first layer copy(wrapper)
+//deep copy: copy all the reference of nested non-primitive value
+
+/* const obj = {name:"adam", item:["key","phone"]};
+const obj1 = {...obj};//shallow copy
+const obj2 = {...obj, item:[...obj.item]};//deep copy
+
+const obj3 = JSON.parse(JSON.stringify(obj));//deep copy, not recommended
+console.log("stringify",obj3 === obj, obj.item === obj3.item);
+
+
+console.log(obj, obj1, obj === obj1, obj.item === obj1.item);
+
+console.log(obj.item === obj2.item); */
+
+
+//destructuring: it's syntax sugar for declaring variable and assigning value from value(element) from object(array)
+// alias, default value, nested pattern
+
+/* const obj = {name:"adam", age:18, item:["key", "phone"]};
+const {name:name1, age, salary=1000, item:[firstItem, secondItem]} = obj;
+
+const arr = [1,2,3,[4,5]];
+const [first, second,third,[fourth, fifth],sixth=6] = arr;
+console.log(first, second, third, fourth, fifth, sixth); */
+
+
+
+/* const name = obj.name
+const age = obj.age */
+
+/* console.log(name1, age, salary, firstItem, secondItem) */
+
+
+
+
+
+
+
+
+
