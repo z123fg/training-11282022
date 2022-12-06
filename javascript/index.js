@@ -143,20 +143,41 @@ console.log("obj1", obj1); */
 //blueprint of the instance of object
 //syntax/syntatic sugar
 //method: function from class, that will be inherited by the instance of the object
-
+//public field
+//private field
+//getter, setter method
 /* class Person {
-  constructor(name){
+  #salary; //private field
+  name; //public field
+  constructor(name, salary){
     console.log("constructor")
     //this point to the instance that is created from the class blueprint
-    this.name = name
+    this.name = name;
+    this.#salary = salary
   }
 
+  get salary(){
+    return this.#salary;
+  }
+
+  set salary(newSalary){
+    //console.log("setter function")
+    this.#salary = newSalary
+  }
+
+
+  showSalary(){
+    console.log(this.#salary);
+  }
   walk(){
     console.log(this.name, "is walking!")
   }
 }
 //class object
-var obj2 = new Person("adam");
+var obj2 = new Person("adam", 1000); 
+obj2.showSalary()
+console.log("name",obj2.name, obj2.salary);
+obj2.salary = 2000
 obj2.walk()
 console.log("obj2", obj2); */
 /* 
@@ -352,7 +373,7 @@ console.log(sum(1, 2, 3, 4, 5, 6)); */
 
 //spread operator: it's a syntax sugar for shallow copying data from an object or array
 //object key override
-//==: coercion, ===: type and value(reference) 
+//==: coercion, ===: type and value(reference)
 
 /* const obj = { name: "adam" };
 const obj1 = { ...obj };
@@ -371,7 +392,6 @@ const obj1 = {age:18};
 const obj2 = {...obj1, ...obj};
 console.log(obj2) */
 
-
 //copy
 //shallow copy: first layer copy(wrapper)
 //deep copy: copy all the reference of nested non-primitive value
@@ -388,7 +408,6 @@ console.log(obj, obj1, obj === obj1, obj.item === obj1.item);
 
 console.log(obj.item === obj2.item); */
 
-
 //destructuring: it's syntax sugar for declaring variable and assigning value from value(element) from object(array)
 // alias, default value, nested pattern
 
@@ -399,17 +418,151 @@ const arr = [1,2,3,[4,5]];
 const [first, second,third,[fourth, fifth],sixth=6] = arr;
 console.log(first, second, third, fourth, fifth, sixth); */
 
-
-
 /* const name = obj.name
 const age = obj.age */
 
 /* console.log(name1, age, salary, firstItem, secondItem) */
 
+//dot notation, bracket notation: syntax for accessing property in object, element in array
+/* 
+  obj:
+    dot notation: use property name directly
+    bracket notation: variable of string 
+*/
+
+/* const obj = {name1:"adam"};
+const key = "name1"
+
+console.log(obj.name1, obj["name1"], obj[key], obj.key);
+
+const arr = [1,2,3];
+
+const key1 = "2"
+console.log(arr["1"], arr[key1], arr["0"]); */
+
+//asynchronous programming: multiple tasks concurrently
+// javascript is single threaded language, sync task
+// java: multi threading
+// event loop: web-api(node-api), javascript engine(v8 engine): callstack, message queue
+// webapi, callstack, message queue
+
+/* 
+  reverse engineering
+    a.name //obj
+    a[key] //obj, array, key:interger, string
+    a() //function
+    a()() // function returns function, higher order function(hoc)
+*/
+/* 
+ settimetout:
+    function
+    args: arrow function, number
+
+*/
+/* 
+  heap:{
+    foo: function(){}
+  }
+  callstack: put all the code from a function and execute them one by one
+  [ 
+    console.log("1");
+    console.log("2");
+    foo()
+    GEC
+  ]
+*/
+
+/* console.log("1");
+console.log("2");
+function foo(){
+  console.log("1");
+console.log("2");
+}
+foo() */
+
+/* 
+  1. start a timer(callstack, webapi), register a callback to be executed in the future(callstack)
+  2. print out line500(callstack), timer is counting down at the same time(webapi)
+  3. approx 1000ms later, line499 is printed(callstack)
 
 
+  // webapi, callstack, message queue
+*/
 
+/* 
+  heap:{}
 
+  callstack:
+
+  [
+  ]
+
+  webapi: timer: 0ms
+
+  message queue: []
+
+*/
+
+/* setTimeout(()=>{ //do something in the future
+  console.log("hello world")//2
+}, 0);
+
+console.log("sync") */
+
+/* setTimeout(()=>{
+  console.log("1")//1, 1s
+  setTimeout(()=>{
+    console.log("2")//2, 1s
+  }, 0)
+}, 1000) */
+
+/* 
+ function scope: var
+ block scope: const let
+
+*/
+/* let i = 0;
+while (i < 5) {
+  setTimeout(() => {
+    console.log(j); //nothing
+  }, 1000);
+  i++;
+}
+
+let i = 0;
+while (i < 5) {
+  let j = i;
+  setTimeout(() => {
+    console.log(j); //nothing
+  }, 1000);
+  i++;
+}
+
+let i = 0;
+while (i < 5) {
+  var j = i;
+  setTimeout(() => {
+    console.log(j); //nothing
+  }, 1000);
+  i++;
+} */
+
+/* 
+for (let i = 0; i < 5; i++) {
+  setTimeout(() => {
+    console.log(i);
+  }, 1000 * i);
+} */
+
+/* for (var i = 0; i < 5; i++) {
+  let j = i
+  setTimeout(() => {
+    console.log(j);
+  }, 1000 * i);
+}
+ */
+
+//promise: why, what, how
 
 
 
