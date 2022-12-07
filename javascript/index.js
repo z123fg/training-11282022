@@ -564,6 +564,220 @@ for (let i = 0; i < 5; i++) {
 
 //promise: why, what, how
 
+//1st request respnose with some data
+//2nd request depends on the data from the 1st request
+//3nd request depends on the data from the 2nd request
+//4th request respnose with some data
+//5th request depends on the data from the 1st request
+//6th request depends on the data from the 2nd request
 
+/* const mock1stRequest = (callback) => {
+  setTimeout(()=>{
+    const res = "response from 1st request";
+    callback(res);
+  },1000)
+}
 
+const mock2ndRequest = (callback) => {
+  setTimeout(()=>{
+    const res = "response from 2nd request";
+    callback(res);
+  },1000)
+} */
+/* 
+const mock3rdRequest = (callback) => {
+  setTimeout(()=>{
+    const res = "response from 3rd request";
+    callback(res);
+  },1000)
+}
+const mock4thRequest = (callback) => {
+  setTimeout(()=>{
+    const res = "response from 4th request";
+    callback(res);
+  },1000)
+}
 
+const mock5thRequest = (callback) => {
+  setTimeout(()=>{
+    const res = "response from 5th request";
+    callback(res);
+  },1000)
+}
+
+const mock6thRequest = (callback) => {
+  setTimeout(()=>{
+    const res = "response from 6th request";
+    callback(res);
+  },1000)
+}
+
+//nested pattern
+//callback hell
+mock1stRequest((res1)=>{
+  console.log("res1", res1)
+  mock2ndRequest((res2)=>{
+    console.log("res2", res2);
+    mock3rdRequest((res3)=>{
+      console.log("res3", res3);
+      mock4thRequest((res4)=>{
+        console.log("res4", res4)
+        mock5thRequest((res5)=>{
+          console.log("res5", res5);
+          mock6thRequest((res6th)=>{
+            console.log("res6", res6th)
+          })
+        })
+      })
+    })
+  })
+})
+ */
+
+/* const mock1stPromiseRequest = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    const res1 = "response from 1st request";
+    resolve(res1);
+  }, 1000);
+});
+
+mock1stPromiseRequest
+  .then((res1) => {
+    console.log("res1", res1)
+    const mock2ndPromiseRequest = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const res2 = "response from 2nd request";
+        resolve(res2);
+      }, 1000);
+    });
+    return mock2ndPromiseRequest;
+  })
+  .then((res2) => {
+    console.log("res2",res2)
+    const mock3rdPromiseRequest = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const res3 = "response from 3rd request";
+        resolve(res3);
+      }, 1000);
+    });
+    return mock3rdPromiseRequest
+  }).then((res3)=>{
+    console.log("res3", res3)
+  }); */
+
+/* console.log(1);// sync
+const promise = new Promise((resolve, reject) => {
+  console.log(2)//sync
+  setTimeout(() => {
+    console.log(3); //async
+    //pending
+    reject("error");
+    resolve("successful!");
+  }, 5000);
+  console.log(4)//sync
+})
+  .then((res) => {
+    console.log(5);//async
+  })
+  .catch((err)=>{
+    console.log(6)//async
+  })
+
+  console.log(7)//sync */
+//1, 2, 4, 7, 3, 6
+
+/* setTimeout(() => {
+  console.log("3", promise)
+}, 6000);
+console.log(1, promise); */
+//object, Promise, then,
+//promise state: fulfilled, pending, rejected
+
+/* console.log(1); //sync
+new Promise((resolve, reject) => {
+  console.log(2); //sync
+  setTimeout(() => {
+    console.log(3);
+    resolve("resolved!");
+    console.log(4);
+  }, 1000);
+  console.log(5); //sync
+})
+  .then((result1) => {
+    console.log(6, result1);
+    return new Promise((resolve, reject) => {
+      console.log(7);
+      setTimeout(() => {
+        console.log(8);
+        reject("rejected!");
+        console.log(9);
+      }, 1000);
+      console.log(10);
+    });
+  })
+  .finally(() => {
+    console.log(10.5);
+  })
+  .then(
+    (result2) => {
+      console.log(11, result2);
+    },
+    (err) => {
+      console.log(11.5, err);
+    }
+  )
+  .catch((err) => {
+    console.log(12, err);
+  }).finally(()=>{
+    console.log(12.5)
+  });
+console.log(13); //sync */
+
+//1,2,5,13 after 1s
+//3,4,6,7,10 after 1s
+//8,9, 11.5,
+
+//dialog, modal
+//promise
+
+/* Promise.all()//static method */
+
+//promise higher priority than other async process
+// micro queue(promise), macro queue
+/* setTimeout(() => {
+  console.log(0); //async
+}, 0);
+
+console.log(1);
+new Promise((resolve, reject) => {
+  console.log(2); //sync
+  setTimeout(() => {
+    resolve(1);
+  }, 500);
+
+  console.log(3); //sync
+})
+  .then(() => {
+    console.log(4); //async
+    return 2;
+  })
+  .then((res) => {
+    console.log(5, res); //async
+  });
+console.log(6); */
+
+//1, 2, 3, 6, 0, 4, 5,
+
+//Promise.all, Promise.race, Promise.allSettled
+
+//fetch: function that makes http request, webapi 
+fetch("https://jsonplaceholder.typicode.com/posts")
+  .then((res) => {
+    return res.json();
+  })
+  .then((res) => {
+    console.log("res", res);
+  });
+//axios(like fetch): cancel token, interceptor
+
+//build your own fetch(myFetch) method, by using xmlhttprequest(xhr)
