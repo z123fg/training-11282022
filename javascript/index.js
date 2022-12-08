@@ -562,6 +562,26 @@ for (let i = 0; i < 5; i++) {
 }
  */
 
+/* 
+  heap(non primitive type data)
+
+  callstack 
+  webapi: open thread, start timer
+  message queue: 5 callback
+
+
+*/
+//const obj = {name:"adam"}
+var i = 0;
+while (i < 5) {
+   let j = i;
+  setTimeout(() => {
+   
+    console.log(j);
+  }, 1000);
+  i++;
+} 
+
 //promise: why, what, how
 
 //1st request respnose with some data

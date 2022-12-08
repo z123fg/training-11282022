@@ -74,6 +74,9 @@ const Model = (() => {
         set todos(newTodo) {
             console.log("setter");
             this.#todos = newTodo;
+            //const obj = {name:"adam"}; 
+            //obj.age //undefined 
+            //obj.age(); //error
             this.#onChange?.();
         }
 
@@ -112,6 +115,11 @@ const View = (() => {
         updateTodoList,
     };
 })();
+
+//reference: pointer
+//window.console.log
+
+//
 
 /* 
     prevent the refresh
