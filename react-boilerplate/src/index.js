@@ -7,6 +7,8 @@
   babel: what: transpiler, why: transpile newer version of javascript into older more compatible version of javascript, how: dictionary, recoginize the code and generate the target code
   bundler: webpack
   module system: common.js(require()), esmodule(import), umd, system.js
+  minification:
+  uglify
   */
 
 import HelloMessage from "./components/HelloMessage";

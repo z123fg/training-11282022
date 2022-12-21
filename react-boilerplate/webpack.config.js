@@ -3,6 +3,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 //source-map
 //html plugin
 //babel loader
+//css loader
+//dev server
 module.exports = {
   module:{
     rules:[
