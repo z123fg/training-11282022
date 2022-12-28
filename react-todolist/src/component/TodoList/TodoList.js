@@ -123,8 +123,12 @@ class TodoList extends React.Component {
 
     /* 
       without key
-      1. two virtual doms
-      2. diffing algorithm, 
+      1. two virtual doms without key
+      2. diffing algorithm, React doesn't know which is which, so it have to compare the difference one by one
+      
+      with key
+      1. two virtual doms with key
+      2. React can identify which one has changed or removed or added, so it will remain the rest of the element intact
     
     */
     return (
