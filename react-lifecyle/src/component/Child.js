@@ -44,6 +44,7 @@ class Child extends React.Component {
     });
   };
 
+
   render() {
     // console.log("Child render");
     return (
