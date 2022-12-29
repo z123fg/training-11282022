@@ -1,183 +1,162 @@
 import React from "react";
 import TodoItem from "./TodoItem/TodoItem";
-import { getTodos, addTodo, removeTodo } from "../../apis/TodoApis";
+import { getTodos, addTodo, removeTodo, saveTodo } from "../../apis/TodoApis";
 
 import "./TodoList.css";
-
+//filter, find
+// least common ancestor
 class TodoList extends React.Component {
-  state = {
-    todos: [],
-    inputText: "",
-  };
-
-  handleInputChange = (e) => {
-    this.setState({
-      inputText: e.target.value,
-    });
-  };
-
-  handleSubmit = (e) => {
-    /* console.log(
-      "handleSubmit1",
-      this.state.todos.length,
-      document.querySelectorAll(".todoitem").length
-    ); // 1, 1 */
-
-    e.preventDefault();
-    if (this.state.inputText.trim() === "") {
-      return;
-    } else {
-      const newTodo = {
-        title: this.state.inputText,
-        completed: false,
-      };
-      //batching
-      addTodo(newTodo).then((todo) => {
-        this.setState((prevState) => {
-          console.log(this.state.todos.length, prevState.todos.length); //0,0
-          return {
-            todos: [...prevState.todos, todo],
-            inputText: "",
-          };
-        });
-
-        this.setState((prevState) => {
-          console.log(this.state.todos.length, prevState.todos.length);//0,1
-          return {
-            todos: [...this.state.todos, todo],
-            inputText: "",
-          };
-        });
-
-        /* console.log(
-          "handleSubmit2",
-          this.state.todos.length,
-          document.querySelectorAll(".todoitem").length
-        ); //1,1 */
-      });
-    }
-  };
-
-  handleDelete = (id) => {
-    removeTodo(id).then(() => {
-      this.setState({
-        todos: this.state.todos.filter((todo) => id !== todo.id),
-      });
-    });
-  };
-
-  shouldComponentUpdate() {
-    /* console.log(
-      "scu",
-      this.state.todos.length,
-      document.querySelectorAll(".todoitem").length
-    ); //1,1 */
-    return true;
-  }
-  /* 
-    virtual DOM: object
-    DOM(document object model): object
-    map in jsx:
-    key: 
-
-
-    diffing algorithm:
-
-    jsx is a syntax sugar for React.createElement()
-    dom node: children
-    dom: tree, root parent
-
-    state:
-    [
-      {},
-      {},
-      {}
-    ]
-
-
-
-    lifecycle:
-      1. change of state or props
-      2. trigger the render cycle, shouldComponentUpdate, render
-      3. render method create new virtual dom object using the new state or props 
-      4. old virtual dom, diffing algorithm, compare new virtual
-      5. update the real dom more efficiently, reconciliation
-      6. componentDidUpdate
-
-
-    setState update batching
-    setState async
-  */
-
-  render() {
-    /* console.log(
-      "render",
-      this.state.todos.length,
-      document.querySelectorAll(".todoitem").length
-    );  */
-    //2,1
-    /*   console.log("root",document.querySelectorAll("#root"))
-    console.log("jsx",<div>123</div> );//virtual node, virtual dom
-
-    console.log("js",React.createElement("div", null,"123"))   */
-
     /* 
-      without key
-      1. two virtual doms without key
-      2. diffing algorithm, React doesn't know which is which, so it have to compare the difference one by one
-      
-      with key
-      1. two virtual doms with key
-      2. React can identify which one has changed or removed or added, so it will remain the rest of the element intact
-    
+      //editIndex:number
+      editId
+      [
+        {content, completed}
+      ]
     */
-    return (
-      <section className="todolist">
-        <header className="todolist__header">
-          <h4>Todo List</h4>
-        </header>
-        <form className="todolist__form">
-          <input
-            type="text"
-            className="todolist__input"
-            onChange={this.handleInputChange}
-            value={this.state.inputText}
-          />
-          <button className="btn btn--primary" onClick={this.handleSubmit}>
-            Submit
-          </button>
-        </form>
-        <ul className="todolist__content">
-          {this.state.todos.map((todo) => (
-            <TodoItem key={todo.id} todo={todo} onDelete={this.handleDelete} />
-          ))}
-        </ul>
-      </section>
-    );
-  }
+    state = {
+        editId: null,
+        todos: [],
+        inputText: "",
+    };
 
-  componentDidUpdate() {
-    /* console.log(
-      "cdu",
-      this.state.todos.length,
-      document.querySelectorAll(".todoitem").length
-    ); //2,2 */
-  }
+    handleInputChange = (e) => {
+        this.setState({
+            inputText: e.target.value,
+        });
+    };
 
-  componentDidMount() {
-    /* console.log(
-      "cdm",
-      this.state.todos.length,
-      document.querySelectorAll(".todoitem").length
-    ); //0,0 */
-    getTodos().then((data) => {
-      /* console.log(data); */
-      this.setState({
-        todos: data,
-      });
-    });
-    //console.log("cdm1",this.state.todos.length, document.querySelectorAll(".todoitem").length); //0,0
-  }
+    handleEdit = (id) => {
+        this.setState({
+            editId: id,
+        });
+    };
+
+    handleSave = (id, title) => {
+        //patch
+        saveTodo(id, title).then((res) => {
+            console.log("saved task", res);
+            /* 
+        wrong:
+        this.state.todos.forEach(item=>{ 
+          if(item.id === id) item.title = res.title
+        }) 
+        */
+            //update immutably
+            this.setState({
+                editId: null,
+                todos: this.state.todos.map((item) => {
+                    if (item.id === id) {
+                        return res;
+                    } else {
+                        return item;
+                    }
+                }),
+            });
+        });
+    };
+
+    handleComplete = (id) => {
+        this.setState({
+            todos: this.state.todos.map((item) => {
+                if (item.id === id) {
+                    return { ...item, completed: !item.completed };
+                } else {
+                    return item;
+                }
+            }),
+        });
+    };
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        if (this.state.inputText.trim() === "") {
+            return;
+        } else {
+            const newTodo = {
+                title: this.state.inputText,
+                completed: false,
+            };
+            addTodo(newTodo).then((todo) => {
+                this.setState((prevState) => {
+                    return {
+                        todos: [...prevState.todos, todo],
+                        inputText: "",
+                    };
+                });
+
+                this.setState((prevState) => {
+                    return {
+                        todos: [...this.state.todos, todo],
+                        inputText: "",
+                    };
+                });
+            });
+        }
+    };
+
+    handleDelete = (id) => {
+        removeTodo(id).then(() => {
+            this.setState({
+                todos: this.state.todos.filter((todo) => id !== todo.id),
+            });
+        });
+    };
+    render() {
+        const pendingTodos = this.state.todos.filter((item) => !item.completed);
+        const completedTodos = this.state.todos.filter((item) => item.completed);
+        return (
+            <section className="todolist">
+                <header className="todolist__header">
+                    <h4>Todo List</h4>
+                </header>
+                <form className="todolist__form">
+                    <input
+                        type="text"
+                        className="todolist__input"
+                        onChange={this.handleInputChange}
+                        value={this.state.inputText}
+                    />
+                    <button className="btn btn--primary" onClick={this.handleSubmit}>
+                        Submit
+                    </button>
+                </form>
+                <ul className="todolist__content">
+                    <li className="todolist__divider"><h4>pending:</h4></li>
+                    {pendingTodos.length === 0? <li className="todolist__placeholder">no task</li> : pendingTodos.map((todo) => (
+                        <TodoItem
+                            key={todo.id}
+                            isEdit={todo.id === this.state.editId}
+                            onComplete={() => this.handleComplete(todo.id)}
+                            onSave={this.handleSave}
+                            onEdit={this.handleEdit}
+                            todo={todo}
+                            onDelete={this.handleDelete}
+                        />
+                    ))}
+                    <li className="todolist__divider"><h4>completed:</h4></li>
+                    {completedTodos.length === 0? <li className="todolist__placeholder">no task</li> :completedTodos.map((todo) => (
+                        <TodoItem
+                            key={todo.id}
+                            isEdit={todo.id === this.state.editId}
+                            onComplete={() => this.handleComplete(todo.id)}
+                            onSave={this.handleSave}
+                            onEdit={this.handleEdit}
+                            todo={todo}
+                            onDelete={this.handleDelete}
+                        />
+                    ))}
+                </ul>
+            </section>
+        );
+    }
+
+    componentDidMount() {
+        getTodos().then((data) => {
+            this.setState({
+                todos: data,
+            });
+        });
+    }
 }
 
 export default TodoList;

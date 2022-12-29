@@ -4,6 +4,7 @@
   border-radius: 5px;
   min-height: 300px;
   width: 300px;
+ 
 }
 
 .todolist__header {
@@ -24,4 +25,20 @@
 
 .todolist__content {
   margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap:10px
 }
+
+.todolist__divider{
+  list-style: none;
+  padding: 10px;
+}
+
+.todolist__placeholder{
+  display: flex;
+  list-style: none;
+  padding: 0;
+  justify-content: center;
+}
+

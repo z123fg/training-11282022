@@ -39,3 +39,11 @@ code {
 .btn--delete {
   background-color: var(--color-secondary);
 }
+
+.btn--edit{
+  background-color: var(--color-primary);
+}
+
+.btn--save{
+  background-color: var(--color-primary);
+}
