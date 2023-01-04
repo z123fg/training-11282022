@@ -3,13 +3,12 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-//npm run: install the package first
-//npx: install the package temporarily first and the run the script
-//running npm script
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  <React.StrictMode>
     <App />
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
