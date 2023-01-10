@@ -1,4 +1,5 @@
 import React from "react";
+import withLogs from "../HOCs/withLogs";
 import { MyPureComponent } from "./Sedan";
 class SUV extends MyPureComponent {
 
@@ -10,12 +11,16 @@ class SUV extends MyPureComponent {
   //     return true
   //   }
   // }
+
+  /* componentDidUpdate(){
+    console.log("a car is sold")
+  } */
   render() {
     console.log("SUV component is rendering")
     const { SUV, onSellCar } = this.props;
     return (
       <div>
-        {SUV.map((item, index) => {
+        {SUV?.map((item, index) => {
           return (
             <div key={item.id}>
               <div>{item.model}</div>
@@ -29,4 +34,4 @@ class SUV extends MyPureComponent {
   }
 }
 
-export default SUV;
+export default withLogs(SUV);
